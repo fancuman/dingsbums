@@ -16,9 +16,6 @@ var authentication = require('./services/authentication');
 var items = require('./services/items');
 
 app.use('/users', authentication);
-
-app.post('/items', items.addItem);
-app.get('/items', items.getItems);
-
+app.use('/items', items);
 
 module.exports = app;

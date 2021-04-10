@@ -1,25 +1,41 @@
-const item = require('../models/item');
+const express = require('express');
+const auth = require('../middleware/auth')
+const Item = require('../models/item');
 
-exports.addItem = function (req, res) {
-  const instance = new item({
-    name: req.body.name,
-    coordinates: req.body.coordinates,
-    ownership: req.body.ownership
-  })
-  instance.save()
-    .then((item) => {
-      console.log(item);
-      res.send('Item added.');
+const router = express.Router();
+
+router.post('/', auth, async (req, res) => {
+  try {
+    const instance = new Item({
+      name: req.body.name,
+      description: req.body.description || '',
+      coordinates: req.body.coordinates,
+      ownership: req.user._id
     })
-    .catch((err) => {
-      console.log(err);
-    });
-}
+    const item = await instance.save();
+    res.send({ message: 'Item added.', item });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
 
-exports.getItems = (req, res) => {
-  console.log(req.query.query);
+router.get('/', async (req, res) => {
+  try {
+    const items = await Item.find({});
+    res.send(items);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
 
-  item.find({ name: req.query.query }, function (err, docs) {
-    res.send(docs);
-  })
-}
+router.get('/:id', async (req, res) => {
+  const _id = req.params.id;
+  try {
+    const item = await Item.findOne({ _id });
+    res.send(item);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+module.exports = router;
