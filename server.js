@@ -10,5 +10,5 @@ const port = config.http_server.port;
 
 const server = http.createServer(app);
 server.listen(port, host, () => {
-    console.log(`Listening on port ${port} at ${host}.`)
+  console.log(`Listening on port ${port} at ${host}.`)
 });

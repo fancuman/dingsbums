@@ -5,7 +5,7 @@ app.use(json_parser);
 
 require('./loaders');
 app.get('/', (req, res, next) => {
-    res.status(200).send("Hello World");
+  res.status(200).send("Hello World");
 });
 
 var authentication = require('./services/authentication');
