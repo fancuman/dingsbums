@@ -12,10 +12,10 @@ app.get('/', (req, res, next) => {
   res.status(200).send("Hello World");
 });
 
-var authentication = require('./services/authentication');
-var items = require('./services/items');
+var user = require('./services/user');
+var item = require('./services/item');
 
-app.use('/users', authentication);
-app.use('/items', items);
+app.use('/users', user);
+app.use('/items', item);
 
 module.exports = app;
