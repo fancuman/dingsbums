@@ -19,12 +19,15 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-router.get('/', async (req, res) => {
+//?keywords=xxx
+router.get('/search', async (req, res) => {
+  const keywords = req.query.keywords;
+  console.log("keywords:", keywords)
   try {
-    const items = await Item.find({});
+    const items = await Item.fuzzySearch(keywords).exec();
     res.send(items);
   } catch (error) {
-    res.status(400).send(error);
+    res.status(402).send(error);
   }
 });
 
@@ -38,4 +41,12 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.get('/', async (req, res) => {
+  try {
+    const items = await Item.find({});
+    res.send(items);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
 module.exports = router;
