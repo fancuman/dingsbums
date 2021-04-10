@@ -1,0 +1,10 @@
+---
+  database:
+    host: localhost
+    port: 5984
+    name: passport-test
+    user: admin
+    password: verynice
+  http_server:
+    host: localhost
+    port: 3000
