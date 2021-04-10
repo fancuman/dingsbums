@@ -1,4 +1,5 @@
 require('./loaders');
+const auth = require('./middleware/auth')
 
 var passport = require("passport");
 const app = require("express")()
@@ -13,14 +14,11 @@ app.get('/', (req, res, next) => {
 
 var authentication = require('./services/authentication');
 var items = require('./services/items');
-app.post('/register', authentication.register);
-app.post('/sign_in', authentication.sign_in);
+
+app.use('/users', authentication);
 
 app.post('/items', items.addItem);
 app.get('/items', items.getItems);
 
-app.get("/secret", passport.authenticate('jwt', { session: false }), function (req, res) {
-  res.json("Success! You can not see this without a token");
-});
 
 module.exports = app;
