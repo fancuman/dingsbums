@@ -8,6 +8,8 @@ const json_parser = require('body-parser').json()
 
 app.use(json_parser);
 
+app.use(require('cors')());
+
 app.get('/', (req, res, next) => {
   res.status(200).send("Hello World");
 });

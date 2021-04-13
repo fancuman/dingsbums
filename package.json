@@ -11,6 +11,7 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "argon2": "^0.27.2",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "js-yaml": "^4.0.0",
     "jwt-token": "^1.0.9",
