@@ -9,11 +9,32 @@ router.post('/', auth, async (req, res) => {
     const instance = new Item({
       name: req.body.name,
       description: req.body.description || '',
-      coordinates: req.body.coordinates,
+      coordinates: [req.body.coordinates.log, req.body.coordinates.lat],
       ownership: req.user._id
     })
     const item = await instance.save();
     res.send({ message: 'Item added.', item });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+router.post('/search', async (req, res) => {
+  let { centerLog, centerLat, maxDistance = 5000, limitNum = 100 } = res.body;
+
+  try {
+    const items = await Item.find({
+      coordinates: {
+        $near: {
+          $geometry: {
+            type: "Point",
+            coordinates: coords
+          },
+          $maxDistance: maxDistance
+        }
+      }
+    }).limit(100);
+    res.send({ ok: 1, items });
   } catch (error) {
     res.status(400).send(error);
   }
